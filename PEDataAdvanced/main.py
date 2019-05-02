@@ -61,10 +61,8 @@ print(engagement) #inzet
 row_count = 100
 
 def get_column_from_sheet(column_number):
-    column = [];
-    i = 0
-    for cell in range(row_count):
-        i = i + 1
+    column = []
+    for i in range(1, row_count+1):
         column.append(sheet.cell_value(i, column_number))
     return column
 
@@ -96,7 +94,6 @@ goalsByPosition = {
 
 for i in range(row_count):
     position = positions[i]
-    print(position)
     goalsByPosition[position] = goalsByPosition[position] + goals[i]
 
 print("rechterflank doelpunten" + str(goalsByPosition['keeper']))
@@ -109,61 +106,57 @@ plt.xticks(onderkant, goalsByPosition.keys())
 plt.ylabel('gescoorde doelpunten')
 plt.show()
 
+### Opgave 6: Modus en gemiddelde kolom D
 
-#nog opdelen in geboortecategorie puntje 5 ??????
+def calculate_average():
+    geheel = 0
+    for i in range(row_count):
+        geheel = geheel + goals[i]
 
-#-----------------------------------------------------------------------------------
-
-geheel = 0
-i = 0
-
-for goalen in range(row_count):
-    geheel = geheel + goals[i]
-    i = i + 1
-
-gemiddelde = geheel / row_count
+    return geheel / row_count
 
 
-print(gemiddelde)
+print(calculate_average())
 print(max(goals))
 
 
-#---------------------------------------------------------------------------------
+# --- Opgave 7: Kwartiel 1 en standaarddeviatie berekenen
 
-eersteKwartiel = np.percentile(weights, 25)  #kwartiel 1 berekenen
+eersteKwartiel = np.percentile(weights, 25) # kwartiel 1 berekenen
 
-print(eersteKwartiel)
+print("Eerste kwartiel: " + str(eersteKwartiel))
 
-standaardafwijking = statistics.stdev(weights) #standaardafwijking
-print(standaardafwijking)
+standaardafwijking = statistics.stdev(weights) # standaardafwijking
+print("Standaardafwijking: " + str(standaardafwijking))
 
-#--------------------------------------------------------------------------------
+# --- Opgave 8: verband tussen posities en aantal goals
 
 print("ja, hoe dieper op het veld, hoe meer goalen dat je maakt, kijk naar de staafdiagram, daaraan zie je dat keepers, geen goalen scoren, terwijl piloten veel doelpunten scoren")
 #indien nodig vergelijken met met de 2 arrays (resultaat piloten scoren meer dan staart en deze op hun beurt dan keepers)
 
-#----------------------------------------------------------------------------------
+# --- Opgave 9:
 #inzet met cirkeldiagram
 
 
-#--------------------------------------------------------------------------------
+# --- Opgave 10:
 
+goalsByPosition = {
+    "linkervleugel": [],
+    "rechtervleugel": [],
+    "piloot": []
+}
 lvgoal = []
 rvgoal = []
 pilootgoal = []
-i = 0
 
-for doelpunt in range(row_count):
+for i in range(row_count):
+    position = positions[i];
     if positions[i] == "linkervleugel":
         lvgoal.append(goals[i])
-        i = i + 1
     elif positions[i] == "rechtervleugel":
         rvgoal.append(goals[i])
-        i = i + 1
     elif positions[i] == "piloot":
         pilootgoal.append(goals[i])
-        i = i + 1
-    else: i = i + 1
 
 
 plt.boxplot(lvgoal)
