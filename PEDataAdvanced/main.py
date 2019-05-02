@@ -11,7 +11,7 @@ from openpyxl import load_workbook
 
 plot.rcdefaults()
 row_count = 100
-football_excel_file = pandas.read_excel("kopieOmTeTesten.xlsx")
+football_excel_file = pandas.read_excel("voetbal.xlsx")
 
 print(football_excel_file)
 
@@ -30,8 +30,8 @@ print(randomDates) #weergave datum
 
 dataframe = pandas.DataFrame({'geboortedatum': randomDates})
 
-book = load_workbook('kopieOmTeTesten.xlsx')
-writer = pandas.ExcelWriter('kopieOmTeTesten.xlsx', engine='openpyxl')
+book = load_workbook('voetbal.xlsx')
+writer = pandas.ExcelWriter('voetbal.xlsx', engine='openpyxl')
 writer.book = book
 writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
 
@@ -53,8 +53,8 @@ print(engagement_categories)
 
 dataframe = pandas.DataFrame({'inzet': engagement_categories})
 
-book = load_workbook('kopieOmTeTesten.xlsx')
-writer = pandas.ExcelWriter('kopieOmTeTesten.xlsx', engine='openpyxl')
+book = load_workbook('voetbal.xlsx')
+writer = pandas.ExcelWriter('voetbal.xlsx', engine='openpyxl')
 writer.book = book
 writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
 
@@ -62,8 +62,6 @@ dataframe.to_excel(writer, 'gegevens', startrow=1, startcol= 4, header=False, in
 
 writer.save()
 
-#genereren in excel bestand, maar is dat permanent, wat als ik meerdere keren run, overschrijft dat dan
-# hoe doen, gewoon array posities toekennen aan plaats in excel bestand met loop van 100
 
 
 # --- Opgave 4: Grafiek genereren ---
@@ -160,7 +158,6 @@ print("ja, hoe dieper op het veld, hoe meer goalen dat je maakt, kijk naar de st
 #indien nodig vergelijken met met de 2 arrays (resultaat piloten scoren meer dan staart en deze op hun beurt dan keepers)
 
 # --- Opgave 9:
-#inzet met cirkeldiagram
 
 categories = {
     "zeer goed": 0,
@@ -202,5 +199,3 @@ for goals in goalsByPosition.values():
 print("kwantitatief, discreet")       #aantal gemaakte goalen
 print("kwalitatief, ordinaal")       #inzet
 print("kwantitatief, continue")       #gewicht
-
-#files Used: https://www.youtube.com/watch?v=p0DNcTnreuY
