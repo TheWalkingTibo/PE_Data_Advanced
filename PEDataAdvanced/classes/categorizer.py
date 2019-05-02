@@ -1,9 +1,14 @@
 class Categorizer(object):
-    format = '%d/%m/%Y'
+
+    @staticmethod
+    def categorize_date(date):
+        month_digits = date[3:5]
+        month_category = Categorizer.get_month_category(month_digits)
+        return Categorizer.get_engagement_for_category(month_category)
 
     @staticmethod
     def get_month_category(month_digits):
-        month = int(month_digits);
+        month = int(month_digits)
 
         if month < 4:
             return 1

@@ -1,56 +1,37 @@
-import xlrd
-import pandas as pd
-import random
-import matplotlib.pyplot as plt;
+import pandas as pandas
+import matplotlib.pyplot as plot
 
 from PEDataAdvanced.classes.categorizer import Categorizer
 from PEDataAdvanced.classes.date_generator import DateGenerator
 
-plt.rcdefaults()
 import numpy as np
 import statistics
 
+plot.rcdefaults()
+row_count = 100
+football_excel_file = pandas.read_excel("kopieOmTeTesten.xlsx")
 
-#(zien voor panda's, kan nuttiger zijn, door meer functies zoals bij grafieken en afdruk)
-#moeilijkheden met file.at[i, 6] ??????
-#ofwel zowel panda ans xlrd gebruiken ofwel vragen aan iemand
-
-
-file = pd.read_excel("kopieOmTeTesten.xlsx")
-
-print(file)
-
-file = "voetbal.xlsx"
-workbook = xlrd.open_workbook(file)
-
-sheet = workbook.sheet_by_index(0)
-
-
-for kolom in range(sheet.ncols):
-    print(sheet.cell_value(0, kolom), end="\t\t")
+print(football_excel_file)
 
 # --- Opgave 2: Genereren van datums ---
 
 print("\n")
 
-categorie = DateGenerator.generate_date_between("1/1/2011", "1/1/2012")
+randomDates = []
+for i in range(row_count):
+    randomDate = DateGenerator.generate_date_between("1/1/2011", "1/1/2012")
+    randomDates.append(randomDate)
 
-print(categorie) #weergave datum
+print(randomDates) #weergave datum
 
 # --- Opgave 3: Categorizeren van maanden ---
 
-month = categorie
+engagement_categories = []
+for i in range(row_count):
+    engagement = Categorizer.categorize_date(randomDates[i])
+    engagement_categories.append(engagement)
 
-month_digits = month[3:5]
-print(month_digits) #weergave maand voor later in categorie & inzet toe te voegen
-
-month_category = Categorizer.get_month_category(month_digits);
-
-print(month_category) #categorie
-engagement = Categorizer.get_engagement_for_category(month_category);
-
-
-print(engagement) #inzet
+print(engagement_categories)
 
 #genereren in excel bestand, maar is dat permanent, wat als ik meerdere keren run, overschrijft dat dan
 # hoe doen, gewoon array posities toekennen aan plaats in excel bestand met loop van 100
@@ -58,31 +39,24 @@ print(engagement) #inzet
 
 # --- Opgave 4: Grafiek genereren ---
 
-row_count = 100
 
-def get_column_from_sheet(column_number):
+def get_column_from_sheet(column_name):
     column = []
-    for i in range(1, row_count+1):
-        column.append(sheet.cell_value(i, column_number))
+    for row in football_excel_file.index:
+        column.append(football_excel_file[column_name][row])
     return column
 
 
-weight_column_number = 5
-length_column_number = 6
+weights = get_column_from_sheet("gewicht")
+lengths = get_column_from_sheet("lengte")
 
-weights = get_column_from_sheet(weight_column_number);
-lengths = get_column_from_sheet(length_column_number);
-
-plt.scatter(weights, lengths)
-plt.show()
+plot.scatter(weights, lengths)
+plot.show()
 
 # --- Opgave 5: Staafdiagram ---
 
-position_column_number = 1
-goal_column_number = 2
-
-positions = get_column_from_sheet(position_column_number)
-goals = get_column_from_sheet(goal_column_number)
+positions = get_column_from_sheet("positie")
+goals = get_column_from_sheet("aantal gemaakte goalen")
 
 goalsByPosition = {
     "keeper": 0,
@@ -101,10 +75,10 @@ print("rechterflank doelpunten" + str(goalsByPosition['keeper']))
 onderkant = np.arange(len(goalsByPosition.keys()))
 grafiekhoogte = [v for v in goalsByPosition.values()]
 
-plt.bar(onderkant, grafiekhoogte, align='center', alpha=0.5)
-plt.xticks(onderkant, goalsByPosition.keys())
-plt.ylabel('gescoorde doelpunten')
-plt.show()
+plot.bar(onderkant, grafiekhoogte, align='center', alpha=0.5)
+plot.xticks(onderkant, goalsByPosition.keys())
+plot.ylabel('gescoorde doelpunten')
+plot.show()
 
 ### Opgave 6: Modus en gemiddelde kolom D
 
@@ -145,34 +119,17 @@ goalsByPosition = {
     "rechtervleugel": [],
     "piloot": []
 }
-lvgoal = []
-rvgoal = []
-pilootgoal = []
 
 for i in range(row_count):
-    position = positions[i];
-    if positions[i] == "linkervleugel":
-        lvgoal.append(goals[i])
-    elif positions[i] == "rechtervleugel":
-        rvgoal.append(goals[i])
-    elif positions[i] == "piloot":
-        pilootgoal.append(goals[i])
+    position = positions[i]
+    if position in goalsByPosition:
+        goalsByPosition[position].append(goals[i])
 
+for goals in goalsByPosition.values():
+    plot.boxplot(goals)
+    plot.show()
 
-plt.boxplot(lvgoal)
-plt.show()
-plt.boxplot(rvgoal)
-plt.show()
-plt.boxplot(pilootgoal)
-plt.show()
-
-#2 dingen (in een grote boxplot zetten & lv & rv hetzelfde?)
-
-
-
-
-#--------------------------------------------------------------------------------
-#soorten gegeven vraag 11
+# --- Opgave 11: soorten gegevens
 
 print("kwantitatief, discreet")       #aantal gemaakte goalen
 print("kwalitatief, ordinaal")       #inzet

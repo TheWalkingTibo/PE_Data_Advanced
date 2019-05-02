@@ -1,5 +1,5 @@
-import time
 import random
+import time
 
 
 class DateGenerator(object):
@@ -10,7 +10,7 @@ class DateGenerator(object):
         startDate = time.mktime(time.strptime(start, DateGenerator.format))
         endDate = time.mktime(time.strptime(end, DateGenerator.format))
 
-        prop = random.random();
+        prop = random.random()
         random_day = startDate + prop * (endDate - startDate)
 
         return time.strftime(DateGenerator.format, time.localtime(random_day))
