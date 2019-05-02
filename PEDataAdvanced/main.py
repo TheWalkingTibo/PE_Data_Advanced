@@ -100,23 +100,20 @@ pilootdoelpunten = 0
 i=0
 
 for goaltjes in range(100):
+    position = positions[i]
+    goalsByPosition[position] = goalsByPosition[position] + 1
     if positions[i] == "keeper":
         keepersdoelpunten = keepersdoelpunten + goals[i]
-        i = i + 1
     elif positions[i] == "staart":
         staartdoelpunten = staartdoelpunten + goals[i]
-        i = i + 1
     elif positions[i] == "linkervleugel":
         linkervleugeldoelpunten = linkervleugeldoelpunten + goals[i]
-        i = i + 1
     elif positions[i] == "rechtervleugel":
         rechtervleugeldoelpunten = rechtervleugeldoelpunten + goals[i]
-        i = i + 1
     else:
         pilootdoelpunten = pilootdoelpunten + goals[i]
-        i = i + 1
 
-print(rechtervleugeldoelpunten)
+print("rechter doelpunten" + str(rechtervleugeldoelpunten))
 
 posities = ('keeper','staart','rechtervleugel','linkervleutgel','piloot')
 onderkant = np.arange(len(posities))
