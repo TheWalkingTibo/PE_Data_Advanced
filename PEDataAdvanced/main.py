@@ -84,7 +84,6 @@ goal_column_number = 2
 positions = get_column_from_sheet(position_column_number)
 goals = get_column_from_sheet(goal_column_number)
 
-
 goalsByPosition = {
     "keeper": 0,
     "staart": 0,
@@ -92,35 +91,21 @@ goalsByPosition = {
     "rechtervleugel": 0,
     "piloot": 0,
 }
-keepersdoelpunten = 0
-staartdoelpunten = 0
-linkervleugeldoelpunten = 0
-rechtervleugeldoelpunten = 0
-pilootdoelpunten = 0
-i=0
 
+i=0
 for goaltjes in range(100):
     position = positions[i]
+    print(position)
     goalsByPosition[position] = goalsByPosition[position] + 1
-    if positions[i] == "keeper":
-        keepersdoelpunten = keepersdoelpunten + goals[i]
-    elif positions[i] == "staart":
-        staartdoelpunten = staartdoelpunten + goals[i]
-    elif positions[i] == "linkervleugel":
-        linkervleugeldoelpunten = linkervleugeldoelpunten + goals[i]
-    elif positions[i] == "rechtervleugel":
-        rechtervleugeldoelpunten = rechtervleugeldoelpunten + goals[i]
-    else:
-        pilootdoelpunten = pilootdoelpunten + goals[i]
+    i = i + 1
 
-print("rechter doelpunten" + str(rechtervleugeldoelpunten))
+print("rechter doelpunten" + str(goalsByPosition['keeper']))
 
-posities = ('keeper','staart','rechtervleugel','linkervleutgel','piloot')
-onderkant = np.arange(len(posities))
-grafiekhoogte = [keepersdoelpunten, staartdoelpunten, linkervleugeldoelpunten, rechtervleugeldoelpunten, pilootdoelpunten]
+onderkant = np.arange(len(goalsByPosition.keys()))
+grafiekhoogte = [v for v in goalsByPosition.values()]
 
 plt.bar(onderkant, grafiekhoogte, align='center', alpha=0.5)
-plt.xticks(onderkant, posities)
+plt.xticks(onderkant, goalsByPosition.keys())
 plt.ylabel('gescoorde doelpunten')
 plt.show()
 
