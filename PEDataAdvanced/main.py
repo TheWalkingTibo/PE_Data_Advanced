@@ -7,6 +7,8 @@ from PEDataAdvanced.classes.date_generator import DateGenerator
 import numpy as np
 import statistics
 
+from openpyxl import load_workbook
+
 plot.rcdefaults()
 row_count = 100
 football_excel_file = pandas.read_excel("kopieOmTeTesten.xlsx")
@@ -24,10 +26,18 @@ for i in range(row_count):
 
 print(randomDates) #weergave datum
 
-#dataframe = pandas.DataFrame({'geboortedatum': randomDates})
-#writer = pandas.ExcelWriter('kopieOmTeTesten.xlsx')
-#dataframe.to_excel(writer, sheet_name='gegevens', startrow=1, startcol= 3, header=False, index=False)
-#writer.save()
+
+
+dataframe = pandas.DataFrame({'geboortedatum': randomDates})
+
+book = load_workbook('kopieOmTeTesten.xlsx')
+writer = pandas.ExcelWriter('kopieOmTeTesten.xlsx', engine='openpyxl')
+writer.book = book
+writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
+
+dataframe.to_excel(writer, 'gegevens', startrow=1, startcol= 3, header=False, index=False)
+
+writer.save()
 
 
 
@@ -39,6 +49,18 @@ for i in range(row_count):
     engagement_categories.append(engagement)
 
 print(engagement_categories)
+
+
+dataframe = pandas.DataFrame({'inzet': engagement_categories})
+
+book = load_workbook('kopieOmTeTesten.xlsx')
+writer = pandas.ExcelWriter('kopieOmTeTesten.xlsx', engine='openpyxl')
+writer.book = book
+writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
+
+dataframe.to_excel(writer, 'gegevens', startrow=1, startcol= 4, header=False, index=False)
+
+writer.save()
 
 #genereren in excel bestand, maar is dat permanent, wat als ik meerdere keren run, overschrijft dat dan
 # hoe doen, gewoon array posities toekennen aan plaats in excel bestand met loop van 100
