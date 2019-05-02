@@ -11,6 +11,7 @@ plot.rcdefaults()
 row_count = 100
 football_excel_file = pandas.read_excel("kopieOmTeTesten.xlsx")
 
+print(football_excel_file)
 
 # --- Opgave 2: Genereren van datums ---
 
@@ -23,13 +24,12 @@ for i in range(row_count):
 
 print(randomDates) #weergave datum
 
-dataframe = pandas.DataFrame({'geboortedatum': randomDates})
-writer = pandas.ExcelWriter('kopieOmTeTesten.xlsx', engine='xlsxwriter')
-dataframe.to_excel(writer, sheet_name='gegevens', startrow=1, startcol= 3, header=False, index=False)
+#dataframe = pandas.DataFrame({'geboortedatum': randomDates})
+#writer = pandas.ExcelWriter('kopieOmTeTesten.xlsx')
+#dataframe.to_excel(writer, sheet_name='gegevens', startrow=1, startcol= 3, header=False, index=False)
+#writer.save()
 
 
-
-print(football_excel_file)
 
 # --- Opgave 3: Categorizeren van maanden ---
 
@@ -117,6 +117,23 @@ print("ja, hoe dieper op het veld, hoe meer goalen dat je maakt, kijk naar de st
 
 # --- Opgave 9:
 #inzet met cirkeldiagram
+
+categories = {
+    "zeer goed": 0,
+    "goed": 0,
+    "matig": 0
+}
+for i in range(row_count):
+    categorie = engagement_categories[i]
+    categories[categorie] = categories[categorie] + 1
+
+labels = 'zeer goed', 'goed', 'matig'
+sizes = [categories["zeer goed"],categories["goed"],categories["matig"]]
+colors = ['blue', 'red', 'green']
+
+plot.pie(sizes, labels = labels, colors = colors)
+plot.axis('equal')
+plot.show()
 
 
 # --- Opgave 10:
