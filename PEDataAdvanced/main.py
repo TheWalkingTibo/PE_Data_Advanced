@@ -58,10 +58,12 @@ print(engagement) #inzet
 
 # --- Opgave 4: Grafiek genereren ---
 
+row_count = 100
+
 def get_column_from_sheet(column_number):
     column = [];
     i = 0
-    for cell in range(100):
+    for cell in range(row_count):
         i = i + 1
         column.append(sheet.cell_value(i, column_number))
     return column
@@ -92,14 +94,12 @@ goalsByPosition = {
     "piloot": 0,
 }
 
-i=0
-for goaltjes in range(100):
+for i in range(row_count):
     position = positions[i]
     print(position)
-    goalsByPosition[position] = goalsByPosition[position] + 1
-    i = i + 1
+    goalsByPosition[position] = goalsByPosition[position] + goals[i]
 
-print("rechter doelpunten" + str(goalsByPosition['keeper']))
+print("rechterflank doelpunten" + str(goalsByPosition['keeper']))
 
 onderkant = np.arange(len(goalsByPosition.keys()))
 grafiekhoogte = [v for v in goalsByPosition.values()]
@@ -117,11 +117,11 @@ plt.show()
 geheel = 0
 i = 0
 
-for goalen in range(100):
+for goalen in range(row_count):
     geheel = geheel + goals[i]
     i = i + 1
 
-gemiddelde = geheel / 100
+gemiddelde = geheel / row_count
 
 
 print(gemiddelde)
@@ -153,7 +153,7 @@ rvgoal = []
 pilootgoal = []
 i = 0
 
-for doelpunt in range(100):
+for doelpunt in range(row_count):
     if positions[i] == "linkervleugel":
         lvgoal.append(goals[i])
         i = i + 1
@@ -184,11 +184,5 @@ plt.show()
 print("kwantitatief, discreet")       #aantal gemaakte goalen
 print("kwalitatief, ordinaal")       #inzet
 print("kwantitatief, continue")       #gewicht
-
-
-
-
-
-
 
 #files Used: https://www.youtube.com/watch?v=p0DNcTnreuY
