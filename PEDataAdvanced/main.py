@@ -109,6 +109,28 @@ plot.xticks(onderkant, goalsByPosition.keys())
 plot.ylabel('gescoorde doelpunten')
 plot.show()
 
+
+
+effort = {
+    "zeer goed": 0,
+    "goed": 0,
+    "matig": 0
+}
+
+for i in range(row_count):
+    j = engagement_categories[i]
+    effort[j] = effort[j] + 1
+
+onderkant = np.arange(len(effort.keys()))
+grafiekhoogte = [v for v in effort.values()]
+
+plot.bar(onderkant, grafiekhoogte, align='center', alpha=0.5)
+plot.xticks(onderkant, effort.keys())
+plot.ylabel('inzet')
+plot.show()
+
+
+
 ### Opgave 6: Modus en gemiddelde kolom D
 
 def calculate_average():
