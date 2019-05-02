@@ -11,7 +11,6 @@ plot.rcdefaults()
 row_count = 100
 football_excel_file = pandas.read_excel("kopieOmTeTesten.xlsx")
 
-print(football_excel_file)
 
 # --- Opgave 2: Genereren van datums ---
 
@@ -23,6 +22,14 @@ for i in range(row_count):
     randomDates.append(randomDate)
 
 print(randomDates) #weergave datum
+
+dataframe = pandas.DataFrame({'geboortedatum': randomDates})
+writer = pandas.ExcelWriter('kopieOmTeTesten.xlsx', engine='xlsxwriter')
+dataframe.to_excel(writer, sheet_name='gegevens', startrow=1, startcol= 3, header=False, index=False)
+
+
+
+print(football_excel_file)
 
 # --- Opgave 3: Categorizeren van maanden ---
 
